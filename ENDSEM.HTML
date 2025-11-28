@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Birthday Reminder</title>
+    <style>
+        /* Simple toast style */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 1s, fadeout 1s 3s;
+        }
+
+        @keyframes fadein {
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 30px; opacity: 1; }
+        }
+
+        @keyframes fadeout {
+            from { bottom: 30px; opacity: 1; }
+            to { bottom: 0; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Student Birthday Reminder</h2>
+
+<div id="toast"></div>
+
+<script>
+    // List of students with DOB (YYYY-MM-DD)
+    const students = [
+        { name: "Anita", dob: "2002-11-28" },
+        { name: "Rahul", dob: "2003-05-10" },
+        { name: "Suresh", dob: "2004-11-28" },
+        { name: "Priya", dob: "2001-12-14" }
+    ];
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
+    }
+
+    function checkBirthdays() {
+        const today = new Date();
+        const month = today.getMonth() + 1; // 0-based
+        const day = today.getDate();
+
+        students.forEach(student => {
+            const dob = new Date(student.dob);
+            if (dob.getDate() === day && (dob.getMonth() + 1) === month) {
+                showToast(`🎉 Today is ${student.name}'s Birthday!`);
+            }
+        });
+    }
+
+    // Run on page load
+    checkBirthdays();
+</script>
+
+</body>
+</html>
